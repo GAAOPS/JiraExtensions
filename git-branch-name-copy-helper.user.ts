@@ -116,7 +116,19 @@ module JExtensions {
 
         private getRawName(): string {
             var $el = this.$header.find(this.projectNameSelector);
-            if ($el.length) {
+            if($el.length>1){
+                let jiraIds="";
+                $el.each(function(){ 
+                    jiraIds= jiraIds + $(this).text().split(" ")[0] +"_";
+                 });
+                 let workItem = '';
+                 $el = $(this.workItemSelector);
+                 if ($el.length) {
+                     workItem = $el.text();
+                 }
+                 return jiraIds + ': ' + workItem;
+            }
+            else {
                 let projectName = $el.text();
                 let workItem = '';
                 $el = $(this.workItemSelector);
@@ -132,6 +144,7 @@ module JExtensions {
             let branchName: string = rawName;
             branchName = branchName.replace(/\s/g, '_');
             branchName = branchName.replace(/-/g, '_');
+            branchName = branchName.replace(/\//g, '_');
             branchName = branchName.replace(/ä/g, 'ae');
             branchName = branchName.replace(/Ä/g, 'Ae');
             branchName = branchName.replace(/ö/g, 'oe');
